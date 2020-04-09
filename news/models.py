@@ -53,20 +53,20 @@ class News(db.Model):
         self.user_id = user_id
 
     def __repr__(self):
-        return f"Ad Id: {self.id} --- Date: {self.date} --- Title: {self.title}"
+        return f"News Id: {self.id} --- Date: {self.date} --- Title: {self.title}"
 
 
 class Comment(db.Model):
     news_group = db.relationship(News)
 
     id = db.Column(db.Integer, primary_key=True)
-    ad_id = db.Column(db.Integer, db.ForeignKey('news.id'), nullable=False)
+    news_id = db.Column(db.Integer, db.ForeignKey('news.id'), nullable=False)
     date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     text = db.Column(db.Text, nullable=False)
 
-    def __init__(self, text, ad_id):
+    def __init__(self, text, news_id):
         self.text = text
-        self.ad_id = ad_id
+        self.news_id = news_id
 
     def __repr__(self):
         return f"Comment Id: {self.id} --- Date: {self.date} --- Text: {self.text}"

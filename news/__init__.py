@@ -23,11 +23,14 @@ Migrate(app, db)
 
 #########################
 ##### LOGIN CONFIGS #####
-#########################
+#########################Ad
 login_manager = LoginManager()
 
 login_manager.init_app(app)
 login_manager.login_view = 'users.login'
-
-
 ##################################################
+
+from news.core.views import core
+
+app.register_blueprint(core)
+
