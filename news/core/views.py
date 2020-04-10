@@ -7,9 +7,9 @@ core = Blueprint('core', __name__)
 @core.route('/')
 def index():
     page = request.args.get('page', 1, type=int)
-    news = News.query.order_by(
+    all_news = News.query.order_by(
         News.date.desc()).paginate(page=page, per_page=5)
-    return render_template('index.html', news=news)
+    return render_template('index.html', all_news=all_news)
 
 
 @core.route('/info')

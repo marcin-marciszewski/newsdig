@@ -32,9 +32,13 @@ login_manager.login_view = 'users.login'
 
 from news.core.views import core
 from news.users.views import users
+from news.news_group.views import news_group
+
+
 
 
 app.register_blueprint(core)
 app.register_blueprint(users)
+app.register_blueprint(news_group)
 
 
