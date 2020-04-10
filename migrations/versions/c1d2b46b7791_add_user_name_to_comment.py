@@ -1,8 +1,8 @@
-"""empty message
+"""add user name to comment
 
-Revision ID: 80d7fccab171
+Revision ID: c1d2b46b7791
 Revises: 
-Create Date: 2020-04-09 16:10:28.054492
+Create Date: 2020-04-10 18:30:52.712510
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '80d7fccab171'
+revision = 'c1d2b46b7791'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -39,6 +39,7 @@ def upgrade():
     )
     op.create_table('comment',
     sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('user_name', sa.Text(), nullable=False),
     sa.Column('news_id', sa.Integer(), nullable=False),
     sa.Column('date', sa.DateTime(), nullable=False),
     sa.Column('text', sa.Text(), nullable=False),

@@ -60,13 +60,15 @@ class Comment(db.Model):
     news_group = db.relationship(News)
 
     id = db.Column(db.Integer, primary_key=True)
+    user_name = text = db.Column(db.Text, nullable=False)
     news_id = db.Column(db.Integer, db.ForeignKey('news.id'), nullable=False)
     date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     text = db.Column(db.Text, nullable=False)
 
-    def __init__(self, text, news_id):
+    def __init__(self, text, news_id, user_name):
         self.text = text
         self.news_id = news_id
+        self.user_name = user_name
 
     def __repr__(self):
         return f"Comment Id: {self.id} --- Date: {self.date} --- Text: {self.text}"

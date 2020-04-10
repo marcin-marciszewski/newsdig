@@ -1,8 +1,8 @@
 from flask import render_template, url_for, flash, request, redirect, Blueprint
 from flask_login import current_user, login_required
 from news import db
-from news.models import News
-from news.news_group.forms import NewsForm
+from news.models import News, Comment
+from news.news_group.forms import NewsForm, CommentForm
 
 news_group = Blueprint('news_group', __name__)
 
@@ -25,10 +25,24 @@ def create_news():
     return render_template('create_news.html', form=form)
 
 # view news
-@news_group.route('/<int:news_id>')
+@news_group.route('/<int:news_id>', methods=['GET', 'POST'])
 def news_view(news_id):
+    form = CommentForm()
+
+    if form.validate_on_submit():
+
+        comment = Comment(text=form.text.data, news_id=news_id,
+                          user_name=current_user.username)
+
+        db.session.add(comment)
+        db.session.commit()
+        flash('Comment Created')
+        return redirect(url_for('news_group.news_view', news_id=news_id))
+
+    comments = Comment.query.order_by(
+        Comment.date.desc())
     news_view = News.query.get_or_404(news_id)
-    return render_template('view_news.html', title=news_view.title, date=news_view.date, news=news_view)
+    return render_template('view_news.html', title=news_view.title, date=news_view.date, news=news_view, form=form, comments=comments)
 
 # update news
 @news_group.route("/<int:news_id>/update", methods=['GET', 'POST'])

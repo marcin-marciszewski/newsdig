@@ -1,4 +1,3 @@
-# users/views.py
 from flask import render_template, url_for, flash, redirect, request, Blueprint
 from flask_login import login_user, current_user, logout_user, login_required
 from news import db
@@ -93,4 +92,3 @@ def user_news(username):
     news = News.query.filter_by(author=user).order_by(
         News.date.desc()).paginate(page=page, per_page=5)
     return render_template('user_news.html', news=news, user=user)
-
