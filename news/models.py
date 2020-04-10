@@ -46,6 +46,7 @@ class News(db.Model):
     title = db.Column(db.String(140), nullable=False)
     text = db.Column(db.Text, nullable=False)
     comments = db.relationship('Comment', backref='news', lazy=True)
+    likes = db.Column(db.Integer, nullable=False, default=0)
 
     def __init__(self, title, text, user_id):
         self.title = title
@@ -60,7 +61,7 @@ class Comment(db.Model):
     news_group = db.relationship(News)
 
     id = db.Column(db.Integer, primary_key=True)
-    user_name = text = db.Column(db.Text, nullable=False)
+    user_name = db.Column(db.Text, nullable=False)
     news_id = db.Column(db.Integer, db.ForeignKey('news.id'), nullable=False)
     date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     text = db.Column(db.Text, nullable=False)

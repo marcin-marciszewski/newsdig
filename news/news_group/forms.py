@@ -12,3 +12,7 @@ class NewsForm(FlaskForm):
 class CommentForm(FlaskForm):
     text = TextAreaField('Comment', validators=[DataRequired()])
     submit = SubmitField('Submit')
+
+
+class LikesForm(FlaskForm):
+    submit = SubmitField('Like')

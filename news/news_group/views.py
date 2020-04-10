@@ -2,7 +2,7 @@ from flask import render_template, url_for, flash, request, redirect, Blueprint
 from flask_login import current_user, login_required
 from news import db
 from news.models import News, Comment
-from news.news_group.forms import NewsForm, CommentForm
+from news.news_group.forms import NewsForm, CommentForm, LikesForm
 
 news_group = Blueprint('news_group', __name__)
 
@@ -27,11 +27,13 @@ def create_news():
 # view news
 @news_group.route('/<int:news_id>', methods=['GET', 'POST'])
 def news_view(news_id):
-    form = CommentForm()
+    form_comment = CommentForm()
+    form_likes = LikesForm()
+    news_view = News.query.get_or_404(news_id)
 
-    if form.validate_on_submit():
+    if form_comment.validate_on_submit():
 
-        comment = Comment(text=form.text.data, news_id=news_id,
+        comment = Comment(text=form_comment.text.data, news_id=news_id,
                           user_name=current_user.username)
 
         db.session.add(comment)
@@ -39,10 +41,15 @@ def news_view(news_id):
         flash('Comment Created')
         return redirect(url_for('news_group.news_view', news_id=news_id))
 
+    if form_likes.validate_on_submit():
+        news_view.likes += 1
+        db.session.commit()
+        return redirect(url_for('news_group.news_view', news_id=news_id))
+
     comments = Comment.query.order_by(
-        Comment.date.desc())
-    news_view = News.query.get_or_404(news_id)
-    return render_template('view_news.html', title=news_view.title, date=news_view.date, news=news_view, form=form, comments=comments)
+        Comment.date.desc()).filter_by(news_id=news_id)
+
+    return render_template('view_news.html', title=news_view.title, date=news_view.date, news=news_view, form_comment=form_comment, form_likes=form_likes, comments=comments)
 
 # update news
 @news_group.route("/<int:news_id>/update", methods=['GET', 'POST'])
