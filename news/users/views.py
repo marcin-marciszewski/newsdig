@@ -3,7 +3,7 @@ from flask_login import login_user, current_user, logout_user, login_required
 from news import db
 from news.models import User, News
 from news.users.forms import RegistrationForm, LoginForm, UpdateUserForm
-from news.users.picture_handler import add_profile_pic
+from news.picture_handlers import add_profile_pic
 
 users = Blueprint('users', __name__)
 
@@ -64,7 +64,6 @@ def account():
     form = UpdateUserForm()
 
     if form.validate_on_submit():
-
         if form.picture.data:
             username = current_user.username
             pic = add_profile_pic(form.picture.data, username)

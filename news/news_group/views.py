@@ -3,19 +3,21 @@ from flask_login import current_user, login_required
 from news import db
 from news.models import News, Comment
 from news.news_group.forms import NewsForm, CommentForm, LikesForm, DislikesForm
+from news.picture_handlers import add_news_pic
 
 news_group = Blueprint('news_group', __name__)
 
-# create news
+
+# create news manually
 @news_group.route('/create', methods=['GET', 'POST'])
 @login_required
 def create_news():
     form = NewsForm()
 
     if form.validate_on_submit():
-
-        new_news = News(title=form.title.data,
-                        text=form.text.data, user_id=current_user.id)
+        new_news = News(title=form.title_news.data,
+                        text=form.text_news.data, user_id=current_user.id,
+                        picture_link=form.picture_link.data)
 
         db.session.add(new_news)
         db.session.commit()
@@ -68,15 +70,16 @@ def update(news_id):
 
     form = NewsForm()
     if form.validate_on_submit():
-        new_news.title = form.title.data
-        new_news.text = form.text.data
+        new_news.title = form.title_news.data
+        new_news.text = form.text_news.data
+        new_news.picture_link = form.picture_link.data
         db.session.commit()
         flash('News Updated')
         return redirect(url_for('news_group.news_view', news_id=new_news.id))
 
     elif request.method == 'GET':
-        form.title.data = new_news.title
-        form.text.data = new_news.text
+        form.title_news.data = new_news.title
+        form.text_news.data = new_news.text
     return render_template('create_news.html', title='Update', form=form)
 
 # delete news

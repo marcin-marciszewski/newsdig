@@ -4,7 +4,7 @@ from flask import url_for, current_app
 
 
 def add_profile_pic(pic_upload, username):
-
+    print(pic_upload)
     filename = pic_upload.filename
     # Grab extension type .jpg or .png
     ext_type = filename.split('.')[-1]
@@ -21,3 +21,20 @@ def add_profile_pic(pic_upload, username):
     pic.save(filepath)
 
     return storage_filename
+
+
+def add_news_pic(pic_upload):
+
+    filename = pic_upload.filename
+    filepath = os.path.join(current_app.root_path,
+                            'static/news_pics', filename)
+
+    # Play Around with this size.
+    output_size = (200, 200)
+
+    # Open the picture and save it
+    pic = Image.open(pic_upload)
+    pic.thumbnail(output_size)
+    pic.save(filepath)
+
+    return filename
