@@ -6,12 +6,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="{{ url_for('static', filename='css/main.css')}}" rel="stylesheet">
 
     <title>Document</title>
 </head>
 
 <body>
     <ul>
+        <li class="nav-link">
+            <form action="{{ url_for('news_group.search') }}">
+                <div>
+                    <input type="text" id="search_word" name="search_word" placeholder="Search">
+                </div>
+                <button type="submit" id="button-addon2">Search</button>
+
+            </form>
+        </li>
+
         <li class='nav-link'>
             <a href="{{url_for('core.index')}}">Home</a>
         </li>
@@ -55,7 +66,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
     </script>
-    <script src="{{ url_for('static', filename='app.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>
 
 </html>

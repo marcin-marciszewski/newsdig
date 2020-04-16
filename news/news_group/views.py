@@ -2,7 +2,7 @@ from flask import render_template, url_for, flash, request, redirect, Blueprint
 from flask_login import current_user, login_required
 from news import db
 from news.models import News, Comment
-from news.news_group.forms import NewsForm, CommentForm, LikesForm, DislikesForm
+from news.news_group.forms import NewsForm, CommentForm, LikesForm, DislikesForm, SearchForm
 from news.picture_handlers import add_news_pic
 
 news_group = Blueprint('news_group', __name__)
@@ -59,6 +59,7 @@ def news_view(news_id):
 
     return render_template('view_news.html', title=news_view.title, date=news_view.date, news=news_view, form_comment=form_comment, form_likes=form_likes, form_dislikes=form_dislikes, comments=comments)
 
+
 # update news
 @news_group.route("/<int:news_id>/update", methods=['GET', 'POST'])
 @login_required
@@ -95,3 +96,13 @@ def delete_news(news_id):
     db.session.commit()
     flash('News Deleted')
     return redirect(url_for('core.index'))
+
+
+@news_group.route('/search', methods=['GET', 'POST'])
+@login_required
+def search():
+    all_news = News.query
+    search_word = request.args['search_word']
+    found_news = all_news.filter(News.title.like('%' + search_word + '%'))
+
+    return render_template('search.html', found_news=found_news)

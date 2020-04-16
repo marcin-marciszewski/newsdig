@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+
+
+{% for news in found_news %}
+
+<div class="card">
+
+    <div class="card-body">
+
+
+        <h2><a class="card-title" href="  {{ url_for('news_group.news_view', news_id=news.id) }}">{{ news.title }}</a>
+        </h2>
+        <a href="{{ url_for('users.user_news', username=news.author.username) }}">Written By:
+            {{ news.author.username }}</a>
+        <p>Published on: {{ news.date.strftime('%Y-%m-%d') }}</p>
+        <p class="card-text">{{ news.text[:100] }}...</p>
+        <a href="{{ url_for('news_group.news_view', news_id=news.id) }}" class="btn btn-primary">Read Blog
+            Post</a>
+    </div>
+</div>
+
+{% endfor %}
+
+
+
+
+
+
+{% endblock %}
