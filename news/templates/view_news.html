@@ -13,7 +13,12 @@
     </div>
     {%endif%}
 
+    {% if news.picture_link%}
     <img src="{{news.picture_link}}" alt="">
+    {% else %}
+    <img src="{{ url_for('static', filename='default.jpeg') }}">
+    {% endif %}
+
 </div>
 
 <div class="container">
