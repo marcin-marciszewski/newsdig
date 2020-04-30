@@ -1,11 +1,48 @@
 {% extends "base.html" %}
 {% block content %}
-  <form method="POST">
-    {{form.hidden_tag()}}
-    {{form.email.label}}{{form.email}}<br>
-    {{form.username.label}}{{form.username}}<br>
-    {{form.password.label}}{{form.password}}<br>
-    {{form.pass_confirm.label}}{{form.pass_confirm}}<br>
-    {{form.submit()}}
-  </form>
+<div class="container">
+  <div id="register">
+    <h2>Register new user</h2><br>
+    <form method="POST">
+      {{form.hidden_tag()}}
+
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <div class="input-group-text"><i class="far fa-envelope-open"></i></div>
+        </div>
+        {{form.email(class="form-control form-control-lg",placeholder="Email")}}<br><br>
+      </div>
+      <br>
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <div class="input-group-text"><i class="fas fa-user-plus"></i></div>
+        </div>
+        {{form.username(class="form-control form-control-lg",placeholder="Username")}}<br><br>
+      </div>
+      <br>
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <div class="input-group-text"><i class="fas fa-lock"></i></div>
+        </div>
+        {{form.password(class="form-control form-control-lg",placeholder="Password")}}<br><br>
+      </div>
+      <br>
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <div class="input-group-text"><i class="fas fa-check-double"></i></div>
+        </div>
+        {{form.pass_confirm(class="form-control form-control-lg",placeholder="Confirm Password")}}<br><br>
+      </div>
+      <br>
+      {{form.submit(class="btn btn-success")}}
+    </form>
+  </div>
+</div>
 {% endblock %}
+
+<div class="input-group">
+  <div class="input-group-prepend">
+    <div class="input-group-text"><i class="far fa-envelope-open"></i></div>
+  </div>
+  {{form.email(class="form-control form-control-lg",placeholder="Email")}}<br><br>
+</div>

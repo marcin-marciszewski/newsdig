@@ -62,6 +62,10 @@ def logout():
 def account():
 
     form = UpdateUserForm()
+    page = request.args.get('page', 1, type=int)
+    user_news = News.query.filter(
+        News.user_id == current_user.id).order_by(
+        News.date.desc()).paginate(page=page, per_page=5)
 
     if form.validate_on_submit():
         if form.picture.data:
@@ -81,7 +85,7 @@ def account():
 
     profile_image = url_for(
         'static', filename='profile_pics/' + current_user.profile_image)
-    return render_template('account.html', profile_image=profile_image, form=form)
+    return render_template('account.html', profile_image=profile_image, form=form, user_news=user_news)
 
 
 @users.route("/<username>")

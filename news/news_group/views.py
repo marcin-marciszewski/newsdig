@@ -17,7 +17,7 @@ def create_news():
     if form.validate_on_submit():
         new_news = News(title=form.title_news.data,
                         text=form.text_news.data, user_id=current_user.id,
-                        picture_link=form.picture_link.data)
+                        picture_link=form.picture_link.data, link=form.link.data)
 
         db.session.add(new_news)
         db.session.commit()
@@ -101,8 +101,8 @@ def delete_news(news_id):
 @news_group.route('/search', methods=['GET', 'POST'])
 @login_required
 def search():
-    all_news = News.query
     search_word = request.args['search_word']
-    found_news = all_news.filter(News.title.like('%' + search_word + '%'))
+    found_news = News.query.filter(News.title.like(
+        '%' + search_word + '%'))
 
     return render_template('search.html', found_news=found_news)

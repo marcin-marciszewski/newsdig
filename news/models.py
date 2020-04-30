@@ -42,8 +42,8 @@ class News(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    picture_link = db.Column(
-        db.String(), nullable=False)
+    picture_link = db.Column(db.String(), nullable=False)
+    link = db.Column(db.String(), nullable=False)
     date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     title = db.Column(db.String(140), nullable=False)
     text = db.Column(db.Text, nullable=False)
@@ -51,10 +51,11 @@ class News(db.Model):
         'Comment', backref='news', lazy=True, cascade="all,delete")
     likes = db.Column(db.Integer, nullable=False, default=0)
 
-    def __init__(self, title, text, user_id, picture_link):
+    def __init__(self, title, text, user_id, link, picture_link):
         self.title = title
         self.text = text
         self.user_id = user_id
+        self.link = link
         self.picture_link = picture_link
 
     def __repr__(self):

@@ -1,0 +1,11 @@
+{
+  "name": "newsdig-master",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "scss": "node-sass --watch scss -o newsdig-master/static/css"
+  },
+  "author": "",
+  "license": "ISC"
+}

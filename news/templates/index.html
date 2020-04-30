@@ -1,35 +1,49 @@
 {% extends "base.html" %}
 {% block content %}
-
-<div class="jumbotron">
-    <h1>gafgdg</h1>
-    <p>asfssf</p>
-</div>
-
 <div class="container">
+    {% for mess in get_flashed_messages() %}
+    <br>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <button type="button" class="fade close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        {{mess}}
+    </div>
+    {% endfor %}
 
     {% for news in all_news.items %}
 
     <div class="card">
 
         <div class="card-body">
+            <div class='likes'>
+                <p>{{news.likes}}</p>
+            </div>
+            <div class="miniature">
+                {% if news.picture_link%}
+                <img src="{{news.picture_link}}" alt="">
+                {% else %}
+                <img src="{{ url_for('static', filename='default.jpeg') }}">
+                {% endif %}
+            </div>
+            <div class="news_info">
+                <h2><a class="card-title"
+                        href="  {{ url_for('news_group.news_view', news_id=news.id) }}">{{ news.title }}</a></h2>
+                <a href="{{ url_for('users.user_news', username=news.author.username) }}">Added by:
+                    {{ news.author.username }}</a>
+                <p>Published on: {{ news.date.strftime('%Y-%m-%d') }}</p>
+                <p class="card-text">{{ news.text[:100] }}...</p>
+                <a href="{{ url_for('news_group.news_view', news_id=news.id) }}" class="btn btn-primary">Read Blog
+                    Post</a>
 
-
-            <h2><a class="card-title"
-                    href="  {{ url_for('news_group.news_view', news_id=news.id) }}">{{ news.title }}</a></h2>
-            <a href="{{ url_for('users.user_news', username=news.author.username) }}">Written By:
-                {{ news.author.username }}</a>
-            <p>Published on: {{ news.date.strftime('%Y-%m-%d') }}</p>
-            <p class="card-text">{{ news.text[:100] }}...</p>
-            <a href="{{ url_for('news_group.news_view', news_id=news.id) }}" class="btn btn-primary">Read Blog
-                Post</a>
+            </div>
         </div>
     </div>
 
     {% endfor %}
 
     <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-center">
+        <ul class="pagination ">
             {% for page_num in all_news.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
             {% if all_news.page == page_num %}
             <li class="page-item disabled">
@@ -42,8 +56,4 @@
             {% endif %}
             {% endfor %}
     </nav>
-
-
-
-
     {% endblock %}

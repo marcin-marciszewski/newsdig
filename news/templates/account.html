@@ -1,32 +1,99 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div class="jumbotron">
-  <div align='center'>
-    <h1>Welcome to the page for {{current_user.username}}</h1>
-    <img align='center' src="{{ url_for('static', filename='profile_pics/' + current_user.profile_image) }}">
-    <p>{{ current_user.email }}</p>
-  </div>
-</div>
 <div class="container">
-  <form method="POST" action="" enctype="multipart/form-data">
-    {{ form.hidden_tag() }}
-    <div class="form-group">
-      {{ form.username.label(class="form-group") }}
-      {{form.username(class='form-control')  }}
-    </div <div class="form-group">
-    {{ form.email.label(class="form-group") }}
-    {{form.email(class='form-control')  }}
-</div>
-<div class="form-group">
-  {{ form.picture.label(class="form-group") }}
-  {{ form.picture(class="form-control-file") }}
-</div>
-<div class="form-group">
-  {{ form.submit(class="btn btn-primary") }}
-</div>
-</form>
 
+  <div class="user_info">
+    <div>
+      <img src="{{ url_for('static', filename='profile_pics/' + current_user.profile_image) }}">
+      <p>{{ current_user.username }}</p>
+    </div>
+    <div>
+      <a id="update_user" href="#" class="btn btn-primary">Update Details</a>
+    </div>
+  </div>
+
+  <div id="user_update_form" class="hidden">
+    <form method="POST" action="" enctype="multipart/form-data">
+      {{ form.hidden_tag() }}
+      <div class="form-group">
+        {{ form.username.label(class="form-group") }}
+        {{form.username(class='form-control')  }}
+      </div>
+      <div class="form-group">
+        {{ form.email.label(class="form-group") }}
+        {{form.email(class='form-control')  }}
+      </div>
+      <div class="form-group">
+        {{ form.picture.label(class="form-group") }}
+        {{ form.picture(class="form-control-file") }}
+      </div>
+      <div class="form-group">
+        {{ form.submit(class="btn btn-primary") }}
+      </div>
+    </form>
+  </div>
+  {% for mess in get_flashed_messages() %}
+  <br>
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    <button type="button" class="fade close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    {{mess}}
+  </div>
+  {% endfor %}
+  <br>
+
+  <h3>News added by you:</h3>
+  <br>
+  {% if not user_news.items %}
+  <h4>No news yet!</h4>
+  {% else %}
+
+  {% for news in user_news.items %}
+  <div class="card">
+
+    <div class="card-body">
+      <div class='likes'>
+        <p>{{news.likes}}</p>
+      </div>
+      <div class="miniature">
+        {% if news.picture_link%}
+        <img src="{{news.picture_link}}" alt="">
+        {% else %}
+        <img src="{{ url_for('static', filename='default.jpeg') }}">
+        {% endif %}
+      </div>
+      <div class="news_info">
+
+        <h2><a class="card-title" href="  {{ url_for('news_group.news_view', news_id=news.id) }}">{{ news.title }}</a>
+        </h2>
+        <a href="{{ url_for('users.user_news', username=news.author.username) }}">Added By:
+          {{ news.author.username }}</a>
+        <p>Published on: {{ news.date.strftime('%Y-%m-%d') }}</p>
+        <p class="card-text">{{ news.text[:100] }}...</p>
+        <a href="{{ url_for('news_group.news_view', news_id=news.id) }}" class="btn btn-primary">Read Blog
+          Post</a>
+
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+  {%endif%}
 </div>
+
+<nav aria-label="Page navigation example">
+  <ul class="pagination ">
+    {% for page_num in user_news.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+    {% if user_news.page == page_num %}
+    <li class="page-item disabled">
+      <a class="page-link" href="{{ url_for('users.account', page=page_num) }}">{{ page_num }}</a></li>
+    </li>
+    {% else %}
+    <li class="page-item"><a class="page-link" href="{{ url_for('users.account', page=page_num) }}">{{ page_num }}</a>
+    </li>
+    {% endif %}
+    {% endfor %}
+</nav>
 
 {% endblock content %}

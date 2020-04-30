@@ -8,6 +8,7 @@ from flask_wtf.file import FileField, FileAllowed
 class NewsForm(FlaskForm):
     title_news = StringField('Title', validators=[DataRequired()])
     text_news = TextAreaField('Description', validators=[DataRequired()])
+    link = StringField('Link to the new', validators=[DataRequired()])
     picture_link = StringField('Picture Link')
     submit_news = SubmitField('Submit')
 
