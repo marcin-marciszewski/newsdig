@@ -79,7 +79,6 @@ def register():
     if form.validate_on_submit():
         if form.check_email(form.email) == False:
             return redirect(url_for('users.register'))
-            print(type(form.password))
         elif form.check_username(form.username) == False:
             return redirect(url_for('users.register'))
         else:
@@ -144,6 +143,11 @@ def account():
             username = current_user.username
             pic = add_profile_pic(form.picture.data, username)
             current_user.profile_image = pic
+
+        elif form.check_email(form.email) == False:
+            return redirect(url_for('users.account'))
+        elif form.check_username(form.username) == False:
+            return redirect(url_for('users.account'))
 
         current_user.username = form.username.data
         current_user.email = form.email.data
