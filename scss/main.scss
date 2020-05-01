@@ -3,7 +3,6 @@
 
 $font_color: #ff6200;
 
-
 * {
   box-sizing: border-box;
   margin: 0;
@@ -146,8 +145,18 @@ body {
         height: 180px;
       }
 
-      .news_info {}
+
     }
+  }
+
+  .details_btn {
+    margin: {
+      bottom: 10px;
+      right: 10px
+    }
+
+    width: 100px;
+    align-self: flex-end;
   }
 }
 

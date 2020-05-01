@@ -2,6 +2,26 @@
 {% block content %}
 <div class="container">
   <div id="register">
+    {% for mess in get_flashed_messages() %}
+    <br>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <button type="button" class="fade close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      {{mess}}
+    </div>
+    {% endfor %}
+
+    {% for field, errors in form.errors.items() %}
+    <br>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <button type="button" class="fade close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      {{ ', '.join(errors) }}
+    </div>
+    {% endfor %}
+
     <h2>Register new user</h2><br>
     <form method="POST">
       {{form.hidden_tag()}}
