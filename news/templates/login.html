@@ -29,6 +29,8 @@
         {{form.password(class="form-control form-control-lg",placeholder="Password")}}<br><br>
       </div>
       <br>
+      <a class="btn btn-info" href="{{url_for('users.google_login')}}"><i class="fab fa-google"></i> Sign in using
+        Google</a>
       {{form.submit(class="btn btn-success")}}
     </form>
   </div>
