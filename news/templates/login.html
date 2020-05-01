@@ -12,6 +12,16 @@
       {{mess}}
     </div>
     {% endfor %}
+
+    {% for field, errors in form.errors.items() %}
+    <br>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <button type="button" class="fade close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      {{ ', '.join(errors) }}
+    </div>
+    {% endfor %}
     <br>
     <form method="POST">
       {{form.hidden_tag()}}

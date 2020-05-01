@@ -105,6 +105,10 @@ def login():
         if not user:
             return render_template("no_login.html")
 
+        elif not user.check_password(form.password.data):
+            flash('Email and password do not match')
+            return redirect(url_for('users.login'))
+
         elif user.check_password(form.password.data) and user is not None:
 
             login_user(user)
