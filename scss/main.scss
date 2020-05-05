@@ -29,6 +29,13 @@ body {
   display: none;
 }
 
+a {
+  &:hover {
+    text-decoration: none;
+    color: $font_color;
+  }
+}
+
 //  Navbar
 #navbar {
   display: flex;
@@ -125,9 +132,28 @@ body {
     display: flex;
 
     .likes {
+      width: 10%;
+      display: flex;
+      flex-direction: column;
       margin-right: 20px;
 
+      .form-group {
+        align-self: center;
+
+        .btn {
+          display: block;
+          margin: 0 auto;
+          border: 2px solid;
+          border-radius: 10px;
+
+          font: {
+            weight: 800;
+          }
+        }
+      }
+
       p {
+        align-self: center;
         border: 5px solid #4383af;
         padding: 12px 22px;
         border-radius: 40%;
@@ -144,15 +170,27 @@ body {
         width: 250px;
         height: 180px;
       }
+    }
 
+    .news_info_view {
+      display: flex;
+      flex-direction: column;
 
+      h2 {
+        margin-bottom: 50px;
+        color: $font_color;
+      }
+
+      p {
+        font-size: 22px;
+      }
     }
   }
 
   .details_btn {
     margin: {
       bottom: 10px;
-      right: 10px
+      right: 10px;
     }
 
     width: 100px;
@@ -213,4 +251,18 @@ body {
       size: 24px;
     }
   }
+}
+
+// News view
+.controls {
+  display: block;
+  margin: 20px auto;
+
+  a {
+    margin-right: 10px;
+  }
+}
+
+.comments {
+  background: #fff;
 }

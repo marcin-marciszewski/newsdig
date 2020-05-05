@@ -1,37 +1,67 @@
 {%extends 'base.html'%}
 {%block content%}
-<div class="jumbotron">
-    <h1>{{news.title}}</h1>
-    <h2>Written by: {{news.author.username}}</h2>
-    <h3>Published: {{news.date.strftime('%B %d, %Y')}}</h3>
-    <p>{{news.text}}</p>
-
-    {%if news.author == current_user%}
-    <div>
-        <a href="{{url_for('news_group.update',news_id=news.id)}}">Update</a>
-        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#del_modal">Delete</button>
-    </div>
-    {%endif%}
-
-    {% if news.picture_link%}
-    <img src="{{news.picture_link}}" alt="">
-    {% else %}
-    <img src="{{ url_for('static', filename='default.jpeg') }}">
-    {% endif %}
-
-</div>
-
 <div class="container">
-    {% for comment in comments %}
-    <p>Comment: {{comment.text}}</p>
-    <p>User: {{comment.user_name}}</p>
-    {% endfor %}
-</div>
+    <div class="card">
+        <div class="card-body">
+            <div class='likes'>
+                <p>{{news.likes}}</p>
 
-<div class=" container">
+                {% if current_user.id==like.user_id and news_id == like.news_id%}
+                <div class="dislike">
+                    <form class='form-group' method='POST'>
+                        {{form_dislikes.hidden_tag()}}
+
+                        <div class="form-group">
+                            {{form_dislikes.submit_dislike(class='btn btn-outline-info')}}
+                        </div>
+                    </form>
+                </div>
+                {% else %}
+
+                <div class="like">
+                    <form class='form-group' method='POST'>
+                        {{form_likes.hidden_tag()}}
+
+                        <div class="form-group">
+                            {{form_likes.submit_like(class='btn btn-outline-info')}}
+                        </div>
+                    </form>
+                </div>
+                {% endif %}
+            </div>
+            <div class="miniature">
+                {% if news.picture_link%}
+                <img src="{{news.picture_link}}" alt="">
+                {% else %}
+                <img src="{{ url_for('static', filename='default.jpeg') }}">
+                {% endif %}
+            </div>
+            <div class="news_info_view">
+                <h2>{{ news.title }}</h2>
+                <p class="card-text">{{ news.text}}</p>
+            </div>
+        </div>
+
+        {%if news.author == current_user%}
+        <div class="controls">
+            <a href="{{url_for('news_group.update',news_id=news.id)}}">Update</a>
+            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#del_modal">Delete</button>
+        </div>
+        {%endif%}
+    </div>
+
+    <div class="comments">
+        {% for comment in comments %}
+        <p>Comment: {{comment.text}}</p>
+        <p>User: {{comment.user_name}}</p>
+        {% endfor %}
+    </div>
+
+
+
+    {% if current_user.is_authenticated %}
     <form class='form-group' method='POST'>
         {{form_comment.hidden_tag()}}
-
         <div class="form-group">
             {{form_comment.text.label(class='form-control-label')}}
             {{form_comment.text(class='form-control form-control-lg')}}
@@ -40,29 +70,10 @@
             {{form_comment.submit_comment(class='btn btn-outline-info')}}
         </div>
     </form>
+    {% endif %}
 </div>
 
-<div class="container">
-    <form class='form-group' method='POST'>
-        {{form_likes.hidden_tag()}}
 
-        <div class="form-group">
-            {{form_likes.submit_like(class='btn btn-outline-info')}}
-        </div>
-    </form>
-</div>
-
-<div class="container">
-    <form class='form-group' method='POST'>
-        {{form_dislikes.hidden_tag()}}
-
-        <div class="form-group">
-            {{form_dislikes.submit_dislike(class='btn btn-outline-info')}}
-        </div>
-    </form>
-</div>
-
-<p>Likes: {{news.likes}}</p>
 <div class="modal" tabindex="-1" role="dialog" id="del_modal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">

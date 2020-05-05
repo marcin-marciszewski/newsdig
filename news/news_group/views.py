@@ -1,7 +1,7 @@
 from flask import render_template, url_for, flash, request, redirect, Blueprint
 from flask_login import current_user, login_required
 from news import db
-from news.models import News, Comment
+from news.models import News, Comment, Likes
 from news.news_group.forms import NewsForm, CommentForm, LikesForm, DislikesForm, SearchForm
 from news.picture_handlers import add_news_pic
 
@@ -27,12 +27,14 @@ def create_news():
     return render_template('create_news.html', form=form)
 
 # view news
-@news_group.route('/<int:news_id>', methods=['GET', 'POST'])
+@news_group.route('/news/<int:news_id>', methods=['GET', 'POST'])
 def news_view(news_id):
     form_comment = CommentForm()
     form_likes = LikesForm()
     form_dislikes = DislikesForm()
     news_view = News.query.get_or_404(news_id)
+    like = Likes.query.filter_by(
+        user_id=current_user.id, news_id=news_id).first()
 
     if form_comment.submit_comment.data and form_comment.validate():
 
@@ -45,19 +47,22 @@ def news_view(news_id):
         return redirect(url_for('news_group.news_view', news_id=news_id))
 
     if form_likes.submit_like.data and form_likes.validate():
+        new_like = Likes(user_id=current_user.id, news_id=news_id)
         news_view.likes += 1
+        db.session.add(new_like)
         db.session.commit()
         return redirect(url_for('news_group.news_view', news_id=news_id))
 
     if form_dislikes.submit_dislike.data and form_dislikes.validate():
         news_view.likes -= 1
+        db.session.delete(like)
         db.session.commit()
         return redirect(url_for('news_group.news_view', news_id=news_id))
 
     comments = Comment.query.order_by(
         Comment.date.desc()).filter_by(news_id=news_id)
 
-    return render_template('view_news.html', title=news_view.title, date=news_view.date, news=news_view, form_comment=form_comment, form_likes=form_likes, form_dislikes=form_dislikes, comments=comments)
+    return render_template('view_news.html', title=news_view.title, date=news_view.date, news=news_view, form_comment=form_comment, form_likes=form_likes, form_dislikes=form_dislikes, comments=comments, news_id=news_id, like=like)
 
 
 # update news

@@ -19,7 +19,6 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(64), unique=True, index=True)
     username = db.Column(db.String(64), unique=True, index=True)
     password_hash = db.Column(db.String(128))
-
     news_group = db.relationship('News', backref='author', lazy=True)
 
     def __init__(self, email, username, password):
@@ -39,6 +38,10 @@ class News(db.Model):
     __tablename__ = 'news'
 
     users = db.relationship(User)
+    comments = db.relationship(
+        'Comment', backref='news', lazy=True, cascade="all,delete")
+    users_likes = db.relationship(
+        'Likes', backref='news', lazy=True, cascade="all,delete")
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
@@ -47,8 +50,6 @@ class News(db.Model):
     date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     title = db.Column(db.String(140), nullable=False)
     text = db.Column(db.Text, nullable=False)
-    comments = db.relationship(
-        'Comment', backref='news', lazy=True, cascade="all,delete")
     likes = db.Column(db.Integer, nullable=False, default=0)
 
     def __init__(self, title, text, user_id, link, picture_link):
@@ -78,3 +79,19 @@ class Comment(db.Model):
 
     def __repr__(self):
         return f"Comment Id: {self.id} --- Date: {self.date} --- Text: {self.text}"
+
+
+class Likes(db.Model):
+
+    __tablename__ = 'likes'
+
+    users = db.relationship(User)
+    news_group = db.relationship(News)
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    news_id = db.Column(db.Integer, db.ForeignKey('news.id'), nullable=False)
+
+    def __init__(self, news_id, user_id):
+        self.news_id = news_id
+        self.user_id = user_id

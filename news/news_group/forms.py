@@ -19,13 +19,13 @@ class SearchForm(FlaskForm):
 
 
 class CommentForm(FlaskForm):
-    text = TextAreaField('Comment', validators=[DataRequired()])
+    text = TextAreaField('Your Comment', validators=[DataRequired()])
     submit_comment = SubmitField('Submit')
 
 
 class LikesForm(FlaskForm):
-    submit_like = SubmitField('Like')
+    submit_like = SubmitField('Dig up')
 
 
 class DislikesForm(FlaskForm):
-    submit_dislike = SubmitField('Dislike')
+    submit_dislike = SubmitField('Withdraw')
