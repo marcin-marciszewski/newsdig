@@ -19,7 +19,7 @@ class SearchForm(FlaskForm):
 
 
 class CommentForm(FlaskForm):
-    text = TextAreaField('Your Comment', validators=[DataRequired()])
+    text = TextAreaField('Your Comment:', validators=[DataRequired()])
     submit_comment = SubmitField('Submit')
 
 

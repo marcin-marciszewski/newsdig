@@ -43,7 +43,7 @@ def news_view(news_id):
 
         db.session.add(comment)
         db.session.commit()
-        flash('Comment Created')
+        flash('Comment Added')
         return redirect(url_for('news_group.news_view', news_id=news_id))
 
     if form_likes.submit_like.data and form_likes.validate():

@@ -172,6 +172,8 @@ def account():
 def user_news(username):
     page = request.args.get('page', 1, type=int)
     user = User.query.filter_by(username=username).first_or_404()
-    news = News.query.filter_by(author=user).order_by(
+    user_news = News.query.filter(
+        News.user_id == current_user.id).order_by(
         News.date.desc()).paginate(page=page, per_page=5)
-    return render_template('user_news.html', news=news, user=user)
+
+    return render_template('user_news.html', user_news=user_news, user=user)

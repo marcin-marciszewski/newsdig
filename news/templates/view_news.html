@@ -1,5 +1,17 @@
 {%extends 'base.html'%}
 {%block content%}
+
+{% for mess in get_flashed_messages() %}
+<br>
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    <button type="button" class="fade close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    {{mess}}
+</div>
+{% endfor %}
+
+
 <div class="container">
     <div class="card">
         <div class="card-body">
@@ -39,6 +51,8 @@
             <div class="news_info_view">
                 <h2>{{ news.title }}</h2>
                 <p class="card-text">{{ news.text}}</p>
+                <p>Added by:<a href="{{ url_for('users.user_news', username=news.author.username) }}">
+                        {{ news.author.username }}</a></p>
             </div>
         </div>
 
@@ -50,50 +64,57 @@
         {%endif%}
     </div>
 
-    <div class="comments">
-        {% for comment in comments %}
-        <p>Comment: {{comment.text}}</p>
-        <p>User: {{comment.user_name}}</p>
+
+    {% for comment in comments %}
+    {% if current_user.username == comment.user_name%}
+    <div class="comment comment-author">
+        {% else %}
+        <div class="comment">
+            {% endif%}
+            <p>- {{comment.text}}</p>
+            <p>&nbsp;&nbsp;&nbsp;By:<a href="{{ url_for('users.user_news', username=comment.user_name) }}">
+                    {{comment.user_name}}</a></p>
+
+        </div>
         {% endfor %}
+
+
+
+        {% if current_user.is_authenticated %}
+        <form class='form-group comment-form' method='POST'>
+            {{form_comment.hidden_tag()}}
+            <div class="form-group">
+                {{form_comment.text.label(class='form-control-label comment-label')}}
+                {{form_comment.text(class='form-control form-control-lg comment-field')}}
+            </div>
+            <div class="form-group">
+                {{form_comment.submit_comment(class='btn btn-outline-info')}}
+            </div>
+        </form>
+        {% endif %}
     </div>
 
 
-
-    {% if current_user.is_authenticated %}
-    <form class='form-group' method='POST'>
-        {{form_comment.hidden_tag()}}
-        <div class="form-group">
-            {{form_comment.text.label(class='form-control-label')}}
-            {{form_comment.text(class='form-control form-control-lg')}}
-        </div>
-        <div class="form-group">
-            {{form_comment.submit_comment(class='btn btn-outline-info')}}
-        </div>
-    </form>
-    {% endif %}
-</div>
-
-
-<div class="modal" tabindex="-1" role="dialog" id="del_modal">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Delete News?</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>Are you sure you want to delete the news?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
-                <form action="{{url_for('news_group.delete_news',news_id=news.id)}}" method="POST">
-                    <input type="submit" class="btn btn-danger" value="Delete">
-                </form>
+    <div class="modal" tabindex="-1" role="dialog" id="del_modal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Delete News?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete the news?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                    <form action="{{url_for('news_group.delete_news',news_id=news.id)}}" method="POST">
+                        <input type="submit" class="btn btn-danger" value="Delete">
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-{%endblock%}
+    {%endblock%}

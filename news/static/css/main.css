@@ -175,5 +175,24 @@ a:hover {
   .controls a {
     margin-right: 10px; }
 
-.comments {
-  background: #fff; }
+.comment-author {
+  border-left: 5px solid #ff6200; }
+
+.comment {
+  display: block;
+  margin: 0 auto;
+  width: 80%;
+  background: #fff;
+  padding: 20px;
+  margin-top: 20px; }
+  .comment p {
+    font-size: 20px; }
+
+.comment-form {
+  width: 80%;
+  display: block;
+  margin: 0 auto; }
+  .comment-form .comment-label {
+    margin-top: 30px;
+    font-size: 24px;
+    font-weight: 400; }
