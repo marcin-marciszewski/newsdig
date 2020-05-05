@@ -25,6 +25,10 @@ a:hover {
   text-decoration: none;
   color: #ff6200; }
 
+#no-login {
+  margin-top: 100px;
+  text-align: center; }
+
 #navbar {
   display: flex;
   background: #4383af;
@@ -92,7 +96,6 @@ a:hover {
     align-items: center;
     display: flex; }
     .card .card-body .likes {
-      width: 10%;
       display: flex;
       flex-direction: column;
       margin-right: 20px; }
@@ -104,14 +107,17 @@ a:hover {
           border: 2px solid;
           border-radius: 10px;
           font-weight: 800; }
-      .card .card-body .likes p {
+      .card .card-body .likes .news_counter {
+        text-align: center;
+        width: 75px;
         align-self: center;
         border: 5px solid #4383af;
-        padding: 12px 22px;
+        padding: 15px 5px;
         border-radius: 40%;
         font-size: 20px;
         font-weight: 700;
-        color: #ff6200; }
+        color: #ff6200;
+        margin-bottom: 10px; }
     .card .card-body .miniature {
       margin-right: 20px; }
       .card .card-body .miniature img {
@@ -120,7 +126,7 @@ a:hover {
     .card .card-body .news_info_view {
       display: flex;
       flex-direction: column; }
-      .card .card-body .news_info_view h2 {
+      .card .card-body .news_info_view s h2 {
         margin-bottom: 50px;
         color: #ff6200; }
       .card .card-body .news_info_view p {
@@ -171,10 +177,14 @@ a:hover {
     font-size: 24px; }
 
 .controls {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 10px; }
+
+.source {
   display: block;
-  margin: 20px auto; }
-  .controls a {
-    margin-right: 10px; }
+  margin: 15px auto;
+  font-size: 20px; }
 
 .comment-author {
   border-left: 5px solid #ff6200; }
@@ -208,6 +218,55 @@ a:hover {
   width: 150px; }
 
 .form-control-file {
-  font-size: 28px;
-  outline: none;
+  font-size: 22px;
+  padding: 5px 10px;
   border: none; }
+
+footer {
+  width: 100%;
+  height: 8vh;
+  background-color: #4383af; }
+  footer p {
+    text-align: center;
+    color: #fff;
+    padding-top: 20px;
+    font-size: 24px; }
+
+@media (max-width: 1024px) {
+  #navbar {
+    font-size: 1rem;
+    padding: 0; }
+  .news_info h2 {
+    font-size: 26px; } }
+
+@media (max-width: 768px) {
+  #navbar {
+    padding: 0 5px; }
+    #navbar #home {
+      font-size: 25px;
+      display: flex; }
+    #navbar ul li {
+      padding: 0 5px; }
+  .fa-user-alt,
+  .fa-kiwi-bird {
+    display: none; }
+  #search_form {
+    display: flex;
+    align-items: center;
+    padding: 0; }
+    #search_form input {
+      border-radius: 5px;
+      width: 150px;
+      height: 35px; }
+    #search_form button {
+      font-size: 0;
+      margin-left: 0px;
+      width: 50px; }
+      #search_form button .fa-search {
+        margin-left: 7px;
+        font-size: initial; }
+  .card .card-body {
+    margin-top: 10px;
+    padding: 10px; }
+  .news_info .card-text {
+    display: none; } }
