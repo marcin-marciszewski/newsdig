@@ -19,7 +19,7 @@ body {
   justify-content: center; }
 
 .hidden {
-  display: none; }
+  display: none !important; }
 
 a:hover {
   text-decoration: none;
@@ -88,6 +88,7 @@ a:hover {
     padding: 20px;
     text-align: center; }
   .card .card-body {
+    margin-top: 30px;
     align-items: center;
     display: flex; }
     .card .card-body .likes {
@@ -196,3 +197,17 @@ a:hover {
     margin-top: 30px;
     font-size: 24px;
     font-weight: 400; }
+
+.label {
+  font-size: 24px; }
+
+.submit-news .btn {
+  display: block;
+  margin: 15px auto;
+  font-size: 24px;
+  width: 150px; }
+
+.form-control-file {
+  font-size: 28px;
+  outline: none;
+  border: none; }

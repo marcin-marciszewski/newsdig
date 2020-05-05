@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, TextAreaField
-from wtforms.validators import DataRequired, Email, EqualTo
+from wtforms.validators import DataRequired, Email, EqualTo, URL
 from wtforms import ValidationError
 from flask_wtf.file import FileField, FileAllowed
 
@@ -8,7 +8,7 @@ from flask_wtf.file import FileField, FileAllowed
 class NewsForm(FlaskForm):
     title_news = StringField('Title', validators=[DataRequired()])
     text_news = TextAreaField('Description', validators=[DataRequired()])
-    link = StringField('Link to the new', validators=[DataRequired()])
+    link = StringField('Link to the news', validators=[URL()])
     picture_link = StringField('Picture Link')
     submit_news = SubmitField('Submit')
 

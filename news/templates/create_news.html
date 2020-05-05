@@ -1,25 +1,38 @@
-{%extends 'base.html'%} {%block content%}
+{%extends 'base.html'%}
+{%block content%}
+{% for field, errors in form.errors.items() %}
+<br>
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  <button type="button" class="fade close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  {{ ', '.join(errors) }}
+</div>
+{% endfor %}
+
 <div class="container">
   <form class="form-group" method="POST">
     {{form.hidden_tag()}}
-    <div class="form-group">
-      {{form.title_news.label(class='form-control-label')}}
-      {{form.title_news(class='form-control form-control-lg')}}
-    </div>
-    <div class="form-group">
-      {{form.text_news.label(class='form-control-label')}}
-      {{form.text_news(class='form-control form-control-lg')}}
-    </div>
-    <div class="form-group">
-      {{ form.picture_link.label(class="form-group") }} {{
-      form.picture_link(class="form-control-file") }}
-    </div>
-    <div class="form-group">
-      {{ form.link.label(class="form-group") }} {{
+    <div class="form-group news-link-btn">
+      {{ form.link.label(class="form-group label") }} {{
       form.link(class="form-control-file") }}
     </div>
-    <div class="form-group">
-      {{form.submit_news(class='btn btn-outline-info')}}
+
+    <div class="form-group  ">
+      {{form.title_news.label(class='form-control-label label')}}
+      {{form.title_news(class='form-control form-control-lg')}}
+    </div>
+    <div class="form-group ">
+      {{form.text_news.label(class='form-control-label label')}}
+      {{form.text_news(class='form-control form-control-lg')}}
+    </div>
+    <div class="form-group ">
+      {{ form.picture_link.label(class="form-group label") }} {{
+      form.picture_link(class="form-control-file") }}
+    </div>
+
+    <div class="form-group submit-news">
+      {{form.submit_news(class='btn btn-primary')}}
     </div>
   </form>
 </div>
