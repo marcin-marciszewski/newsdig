@@ -8,7 +8,7 @@
         </div>
         <div class="miniature">
             {% if news.picture_link%}
-            <img src="{{news.picture_link}}" alt="">
+            <img class="miniature_img" src="{{news.picture_link}}" alt="">
             {% else %}
             <img src="{{ url_for('static', filename='default.jpeg') }}">
             {% endif %}

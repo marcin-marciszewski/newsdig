@@ -86,6 +86,8 @@ def update(news_id):
     elif request.method == 'GET':
         form.title_news.data = new_news.title
         form.text_news.data = new_news.text
+        form.picture_link.data = new_news.picture_link
+        form.link.data = new_news.link
     return render_template('create_news.html', title='Update', form=form)
 
 # delete news

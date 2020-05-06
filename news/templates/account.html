@@ -56,7 +56,7 @@
       </div>
       <div class="miniature">
         {% if news.picture_link%}
-        <img src="{{news.picture_link}}" alt="miniature">
+        <img class="miniature_img" src="{{news.picture_link}}" alt="miniature">
         {% else %}
         <img src="{{ url_for('static', filename='default.jpeg') }}">
         {% endif %}
@@ -69,12 +69,6 @@
       </div>
     </div>
     <div class="controls">
-      {%if news.author == current_user%}
-      <div>
-        <a href="{{url_for('news_group.update',news_id=news.id)}}">Update</a>&nbsp;
-        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#del_modal">Delete</button>
-      </div>
-      {%endif%}
       <div>
         <a href="{{ url_for('news_group.news_view', news_id=news.id) }}" class="details_btn btn btn-primary">Details</a>
       </div>
@@ -97,5 +91,7 @@
     {% endif %}
     {% endfor %}
 </nav>
+
+
 
 {% endblock content %}
